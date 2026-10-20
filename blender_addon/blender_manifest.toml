@@ -1,0 +1,30 @@
+schema_version = "1.0.0"
+id = "blendpad"
+version = "1.4.0"
+name = "BlendPad Direct"
+tagline = "Ultra-low latency SpaceMouse & Contextual Workflow Controller for Mobile"
+maintainer = "BlendPad Team"
+type = "add-on"
+blender_version_min = "4.2.0"
+license = [
+    "SPDX:GPL-2.0-or-later",
+]
+permissions = [
+    "network",
+]
+permissions_explanation = "Required to establish direct peer-to-peer UDP/TCP communication with the BlendPad mobile app over local Wi-Fi."
+tags = [
+    "3D View",
+    "Navigation",
+    "Workflow",
+    "Sculpting",
+    "Input Device",
+]
+icon = "icon.png"
+
+[build]
+paths_exclude_pattern = [
+    "__pycache__",
+    "*.pyc",
+    ".git*",
+]
