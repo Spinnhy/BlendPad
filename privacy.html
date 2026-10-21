@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — BlendPad</title>
+  <meta name="description" content="Privacy Policy for BlendPad (com.spinnhy.blendpad). Complete transparency on local-first architecture, permissions, and zero cloud data collection.">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0A0D14;
+      --bg-surface: #121824;
+      --bg-card: rgba(22, 30, 46, 0.7);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(0, 242, 254, 0.4);
+      --cyan: #00F2FE;
+      --cyan-glow: rgba(0, 242, 254, 0.25);
+      --orange: #FF7B25;
+      --text-main: #F0F4FC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.7;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 10%, rgba(0, 242, 254, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 30%, rgba(255, 123, 37, 0.07) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(10, 13, 20, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      box-shadow: 0 0 16px rgba(0, 242, 254, 0.3);
+    }
+
+    .brand span {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0, 242, 254, 0.25);
+      background: rgba(0, 242, 254, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .back-link:hover {
+      background: rgba(0, 242, 254, 0.15);
+      border-color: var(--cyan);
+    }
+
+    /* Content Area */
+    main {
+      padding: 50px 0 80px;
+    }
+
+    .policy-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #FFFFFF 30%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .meta-info {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Policy Sections */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(12px);
+    }
+
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 .section-num {
+      color: var(--cyan);
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+
+    p {
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      font-size: 14.5px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    strong {
+      color: var(--text-main);
+    }
+
+    ul {
+      margin: 10px 0 16px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .highlight-box {
+      background: rgba(0, 242, 254, 0.05);
+      border-left: 3px solid var(--cyan);
+      padding: 14px 18px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 16px 0;
+    }
+
+    .highlight-box p {
+      color: var(--text-main);
+      font-size: 13.5px;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--cyan);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 30px 0;
+      background: rgba(10, 13, 20, 0.95);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-inner a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-inner a:hover {
+      color: var(--cyan);
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 30px; }
+      .section-card { padding: 20px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">
+        <img src="assets/icon.png" alt="BlendPad Icon">
+        <span>BlendPad</span>
+      </a>
+      <a href="index.html" class="back-link">
+        ← Back to BlendPad
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <header class="policy-header">
+      <div class="badge">Legal & Security Documentation</div>
+      <h1>Privacy Policy</h1>
+      <div class="meta-info">
+        <strong>Application:</strong> BlendPad (<code>com.spinnhy.blendpad</code>) &nbsp;•&nbsp; 
+        <strong>Developer:</strong> CtrlSide &nbsp;•&nbsp; 
+        <strong>Last Updated:</strong> October 21, 2026
+      </div>
+    </header>
+
+    <!-- 1. Introduction -->
+    <div class="section-card">
+      <h2><span class="section-num">01.</span> Overview & Core Commitment</h2>
+      <p>
+        <strong>BlendPad</strong> ("the Application") is developed and maintained by <strong>CtrlSide</strong> ("we", "our", or "us"). BlendPad is designed as a direct, high-performance contextual touchscreen companion and 3D controller for Blender artists and studios.
+      </p>
+      <p>
+        We strongly believe in digital privacy, creative ownership, and minimal data footprint. BlendPad is architected from the ground up as a <strong>local-first tool</strong>. Your 3D scenes, brush strokes, modeling workflows, and digital artwork remain exclusively on your own devices.
+      </p>
+    </div>
+
+    <!-- 2. Local-Only Architecture -->
+    <div class="section-card">
+      <h2><span class="section-num">02.</span> Local Area Network (Zero Cloud Relay)</h2>
+      <p>
+        BlendPad operates by communicating directly between your mobile device and the companion add-on installed on your personal computer via your <strong>local Wi-Fi network (LAN)</strong> using lightweight TCP (ports 4242 / 4243) and fast UDP (port 4242) sockets.
+      </p>
+      <div class="highlight-box">
+        <p>
+          🔒 <strong>Zero Cloud Streaming:</strong> No 3D model geometry, mesh data, viewport captures, brush coordinates, or bpy operator commands are ever transmitted to or stored on external cloud servers. All communications stay strictly confined to your private local network.
+        </p>
+      </div>
+    </div>
+
+    <!-- 3. Permissions -->
+    <div class="section-card">
+      <h2><span class="section-num">03.</span> Device Permissions & Purpose</h2>
+      <p>
+        BlendPad requests only the minimal set of operating system permissions required for its direct hardware controller functions:
+      </p>
+      <ul>
+        <li>
+          <strong>Camera (<code>android.permission.CAMERA</code>):</strong> Used solely for the real-time optical scanning of the pairing QR code displayed in your Blender 3D viewport sidebar. The video feed is processed entirely in volatile device memory by the local scanner library to decode the local IP address and session token. <em>No camera frames, photos, or video recordings are ever captured, saved, stored, or transmitted off your device.</em>
+        </li>
+        <li>
+          <strong>Local Network & Wi-Fi (<code>android.permission.INTERNET</code>, <code>android.permission.ACCESS_NETWORK_STATE</code>, <code>android.permission.ACCESS_WIFI_STATE</code>, <code>android.permission.CHANGE_WIFI_MULTICAST_STATE</code>):</strong> Used exclusively to open local socket connections and detect your computer running Blender on your local wireless or tethered network.
+        </li>
+        <li>
+          <strong>In-App Purchases & Billing (<code>com.android.vending.BILLING</code>):</strong> Used to support Google Play in-app subscriptions and lifetime license purchases (BlendPad Pro). All payment transactions, verification, and payment instrument processing are handled securely and directly by the <strong>Google Play Store</strong>. We never have access to, receive, or store your credit card or financial credentials.
+        </li>
+        <li>
+          <strong>Haptic Feedback (<code>android.permission.VIBRATE</code>):</strong> Used to provide subtle physical touch feedback during rotary dial rotations and button clicks.
+        </li>
+        <li>
+          <strong>Wake Lock (<code>android.permission.WAKE_LOCK</code>):</strong> Allows the screen to remain active while you are actively working in Blender, preventing unwanted screen dimming during 3D sculpting or modeling sessions.
+        </li>
+      </ul>
+    </div>
+
+    <!-- 4. Data Collection, Tracking & Analytics -->
+    <div class="section-card">
+      <h2><span class="section-num">04.</span> Data Collection, Accounts & Tracking</h2>
+      <p>
+        We do not collect personal data, period:
+      </p>
+      <ul>
+        <li><strong>No Account Required:</strong> You do not need to create an account, register an email address, or provide personal identity details to use BlendPad.</li>
+        <li><strong>No Advertising or Tracking SDKs:</strong> BlendPad contains zero third-party ads, zero tracking pixels, zero analytics trackers, and zero data-broker libraries. We do not track you across applications or websites.</li>
+        <li><strong>No Personal Data Sale:</strong> We do not sell, rent, monetize, or trade any user information with any third party.</li>
+        <li>
+          <strong>Optional Technical Diagnostics / Feedback:</strong> If you voluntarily choose to report an issue using the "Report Issue / Feedback" tool in the App settings, the Application prepares a plaintext diagnostic summary (device model, Android OS version, Blender version, and recent local network event codes). This technical report is shown to you for inspection and is only sent if you explicitly choose to dispatch it via your personal email client to our support address (<code>ctrlsidee@gmail.com</code>).
+        </li>
+      </ul>
+    </div>
+
+    <!-- 5. Data Retention & User Control -->
+    <div class="section-card">
+      <h2><span class="section-num">05.</span> Data Storage, Retention & Deletion</h2>
+      <p>
+        Because BlendPad does not maintain user accounts or cloud databases, we hold no user data on remote infrastructure.
+      </p>
+      <p>
+        All user configuration settings (custom controller layouts, dial sensitivity multipliers, dark mode preferences, and saved IP configurations) are stored strictly locally on your device via standard private storage (SharedPreferences).
+      </p>
+      <p>
+        You have complete control over this data. You can erase all locally saved layouts and configuration history at any time by clearing the Application's storage via your Android device settings (<em>Settings &gt; Apps &gt; BlendPad &gt; Storage &gt; Clear Storage</em>) or by uninstalling the Application.
+      </p>
+    </div>
+
+    <!-- 6. Children's Privacy -->
+    <div class="section-card">
+      <h2><span class="section-num">06.</span> Children's Privacy (COPPA / GDPR-K)</h2>
+      <p>
+        BlendPad is a productivity tool intended for artists, designers, and 3D modeling professionals. The Application is not directed toward children under 13 years of age (or under 16 in the European Union), and we do not knowingly collect personal information from children.
+      </p>
+    </div>
+
+    <!-- 7. Security -->
+    <div class="section-card">
+      <h2><span class="section-num">07.</span> Security Practices</h2>
+      <p>
+        Local communication between your mobile controller and Blender is protected by cryptographic authentication tokens generated dynamically during QR pairing. Google Play Billing communications adhere strictly to Google's standard TLS encryption protocols.
+      </p>
+    </div>
+
+    <!-- 8. Policy Updates -->
+    <div class="section-card">
+      <h2><span class="section-num">08.</span> Changes to This Policy</h2>
+      <p>
+        We may occasionally update this Privacy Policy to reflect future features or regulatory updates. Any modifications will be posted directly to this public URL (<code>https://spinnhy.github.io/BlendPad/privacy.html</code>) with a revised "Last Updated" date.
+      </p>
+    </div>
+
+    <!-- 9. Contact Us -->
+    <div class="section-card">
+      <h2><span class="section-num">09.</span> Contact & Developer Information</h2>
+      <p>
+        If you have questions, inquiries, or feedback regarding this Privacy Policy or BlendPad's technical architecture, please reach out to:
+      </p>
+      <p style="margin-top: 10px;">
+        <strong>Developer:</strong> CtrlSide<br>
+        <strong>Email:</strong> <a href="mailto:ctrlsidee@gmail.com" style="color: var(--cyan); text-decoration: none;">ctrlsidee@gmail.com</a><br>
+        <strong>Official Website:</strong> <a href="https://spinnhy.github.io/BlendPad/" style="color: var(--cyan); text-decoration: none;">https://spinnhy.github.io/BlendPad/</a><br>
+        <strong>GitHub Repository:</strong> <a href="https://github.com/Spinnhy/BlendPad" style="color: var(--cyan); text-decoration: none;" target="_blank" rel="noopener">https://github.com/Spinnhy/BlendPad</a>
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <p><strong>BlendPad</strong> · Developed by CtrlSide.</p>
+        <p style="margin-top: 4px; font-size: 11px;">Blender is a registered trademark of the Blender Foundation.</p>
+      </div>
+      <div>
+        <a href="index.html">Home</a> &nbsp;•&nbsp; 
+        <a href="privacy.html" style="color: var(--cyan);">Privacy Policy</a> &nbsp;•&nbsp; 
+        <a href="https://ko-fi.com/ctrlside" target="_blank" rel="noopener">🍕 Ko-fi</a> &nbsp;•&nbsp; 
+        <a href="https://github.com/Spinnhy/BlendPad" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
