@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BlendPad — Next-Gen Multi-Touch SpaceMouse Controller for Blender</title>
   <meta name="description" content="Turn your smartphone or tablet into an ultra-low latency SpaceMouse and contextual workflow deck for Blender. 120Hz direct UDP streaming, zero cloud relay, instant QR pairing.">
+  <!-- OpenGraph / Social Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://spinnhy.github.io/BlendPad/">
+  <meta property="og:title" content="BlendPad — 120Hz Multi-Touch SpaceMouse & Workflow Deck for Blender">
+  <meta property="og:description" content="Turn your Android smartphone or tablet into an ultra-low latency 120Hz UDP SpaceMouse, 3D rotary dial controller, and mode-aware shortcut deck for Blender 4.x & 5.x.">
+  <meta property="og:image" content="https://spinnhy.github.io/BlendPad/assets/social_preview.jpg">
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BlendPad — 120Hz Multi-Touch SpaceMouse for Blender">
+  <meta name="twitter:description" content="Ultra-low latency 120Hz UDP viewport navigation, 3D rotary dials, and dynamic workflow decks for Blender 4.x & 5.x.">
+  <meta name="twitter:image" content="https://spinnhy.github.io/BlendPad/assets/social_preview.jpg">
   <link rel="icon" type="image/png" href="assets/icon.png">
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1213,6 +1224,92 @@
     .footer-links a:hover {
       color: var(--cyan);
     }
+
+    /* FAQ & Troubleshooting Accordion */
+    .faq-section {
+      padding: 60px 0 30px;
+    }
+    .faq-list {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .faq-item.open {
+      border-color: rgba(0, 242, 254, 0.35);
+      background: rgba(22, 32, 50, 0.85);
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      text-align: left;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+    }
+    .faq-question:hover {
+      color: var(--cyan);
+    }
+    .faq-chevron {
+      font-size: 14px;
+      color: var(--cyan);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 22px 18px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.65;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 14px;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .btn-copy-pc {
+      margin-top: 10px;
+      width: 100%;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-main);
+      font-size: 12px;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-copy-pc:hover {
+      background: rgba(0, 242, 254, 0.12);
+      border-color: var(--cyan);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -1231,6 +1328,7 @@
         <li><a href="#workflows">Workflows</a></li>
         <li><a href="#installation">Setup</a></li>
         <li><a href="#pricing">Free vs PRO</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
 
       <div class="nav-cta">
@@ -1253,6 +1351,7 @@
       <a href="#workflows" class="mobile-nav-link" onclick="closeMenu()">🎛️ Workflows</a>
       <a href="#installation" class="mobile-nav-link" onclick="closeMenu()">🚀 Setup</a>
       <a href="#pricing" class="mobile-nav-link" onclick="closeMenu()">💎 Free vs PRO</a>
+      <a href="#faq" class="mobile-nav-link" onclick="closeMenu()">🛠️ FAQ & Help</a>
       <a href="https://ko-fi.com/ctrlside" target="_blank" rel="noopener" class="mobile-nav-link" style="color: #FFDD57; font-weight: 700; background: rgba(255, 221, 87, 0.08); border: 1px solid rgba(255, 221, 87, 0.2); margin-top: 6px;" onclick="closeMenu()">🍕 Buy a Pizza (Ko-fi)</a>
       <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
         <a href="releases/blendpad_blender.zip" download="blendpad_blender.zip" class="btn btn-orange" style="width: 100%; justify-content: center;" onclick="closeMenu()">
@@ -1265,7 +1364,7 @@
 
   <!-- Hero Section -->
   <header class="hero container">
-    <div class="hero-badge">✨ Open & Modular · Blender 4.2+ Ready</div>
+    <div class="hero-badge">✨ Open & Modular · Blender 4.2+ & 5.x Ready</div>
     <h1 class="hero-title">
       Turn your Smartphone into a <span class="gradient-text">120Hz SpaceMouse</span> for <span class="orange-text">Blender</span>.
     </h1>
@@ -1296,7 +1395,7 @@
           Direct UDP Stream: 120 FPS · Latency: ~1.2ms
         </div>
         <div class="demo-label" style="color: var(--cyan);">
-          Blender 4.2+ Active
+          Blender 4.2+ / 5.x Active
         </div>
       </div>
 
@@ -1333,7 +1432,7 @@
               📱 3D Touchpad
             </button>
             <button class="sim-tab-btn" id="tabDialsBtn" onclick="switchSimTab('dials')">
-              🎛️ Ghiere Pennelli
+              🎛️ 3D Brush Dials
             </button>
           </div>
 
@@ -1409,7 +1508,7 @@
             </div>
 
             <div class="dial-hint-box">
-              <span>🔄 <strong>Ruota la ghiera in cerchio</strong> con il dito o con la rotellina per calibrare i pennelli in tempo reale</span>
+              <span>🔄 <strong>Rotate the dial in a circle</strong> with your finger or mouse wheel to calibrate brushes in real time</span>
             </div>
           </div>
         </div>
@@ -1549,64 +1648,126 @@
   <!-- Free vs Studio PRO -->
   <section class="compare-section container" id="pricing">
     <h2 class="section-title">Free vs Studio PRO</h2>
-    <p class="section-sub">BlendPad offers generous core SpaceMouse features completely free for hobbyists and students, with advanced power features for professionals.</p>
+    <p class="section-sub">BlendPad offers generous core SpaceMouse features completely free for hobbyists and students, with advanced power features for professionals (3-day Free Trial included on Google Play).</p>
 
     <table class="compare-table">
       <thead>
         <tr>
           <th>Capability</th>
           <th>Free Tier</th>
-          <th style="color: var(--cyan);">Studio PRO</th>
+          <th style="color: var(--cyan);">Studio PRO 👑</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>120Hz UDP SpaceMouse Viewport Touchpad</strong></td>
+          <td><strong>120Hz UDP SpaceMouse Touchpad (1-Finger Orbit, 2-Finger Pan &amp; Pinch Zoom)</strong></td>
           <td><span class="check-icon">✓ Included</span></td>
           <td><span class="check-icon">✓ Included (120Hz)</span></td>
         </tr>
         <tr>
-          <td><strong>1-Finger Orbit & 2-Finger Pan / Zoom Gestures</strong></td>
+          <td><strong>Custom Orbit / Pan / Zoom Sensitivity &amp; Axis Inversion</strong></td>
           <td><span class="check-icon">✓ Included</span></td>
           <td><span class="check-icon">✓ Included</span></td>
         </tr>
         <tr>
-          <td><strong>Standard Numpad View Snapping (Front, Top, Side, Camera)</strong></td>
+          <td><strong>1-Finger Double-Tap Focus (Frame Selected) &amp; Numpad View Matrix</strong></td>
           <td><span class="check-icon">✓ Included</span></td>
           <td><span class="check-icon">✓ Included</span></td>
         </tr>
         <tr>
-          <td><strong>QR Quick-Pair & Automatic Local Handshake</strong></td>
+          <td><strong>QR Quick-Pair, Auto-Reconnect &amp; Automatic Screen WakeLock</strong></td>
           <td><span class="check-icon">✓ Included</span></td>
           <td><span class="check-icon">✓ Included</span></td>
         </tr>
         <tr>
-          <td><strong>Standard Mode Workflows (Object, Sculpt, Edit, Render)</strong></td>
-          <td><span class="check-icon">✓ Standard Layouts</span></td>
-          <td><span class="check-icon">✓ Full Dynamic Access</span></td>
+          <td><strong>Standard Mode Workflows (Object, Edit Mesh, Sculpt) &amp; Basic Layout Move/Resize</strong></td>
+          <td><span class="check-icon">✓ 3 Standard Decks</span></td>
+          <td><span class="check-icon">✓ Unlimited Custom Decks</span></td>
         </tr>
         <tr>
-          <td><strong>Interactive Rotary Dials & Precision Continuous Sliders</strong></td>
+          <td><strong>Custom Workflow Manager (Create, Rename, Reorder &amp; Auto-Sync Mode Triggers)</strong></td>
+          <td><span class="cross-icon">—</span></td>
+          <td><span class="check-icon">✓ Full Workflow Engine</span></td>
+        </tr>
+        <tr>
+          <td><strong>3D Haptic Rotary Dials (Brush Radius, Strength &amp; Timeline Scrubber)</strong></td>
           <td><span class="cross-icon">—</span></td>
           <td><span class="check-icon">✓ Included</span></td>
         </tr>
         <tr>
-          <td><strong>Custom Button Decks & Layout Designer</strong></td>
+          <td><strong>Procreate-Style Multi-Touch Gestures (3-Finger Tap Undo / 4-Finger Tap Redo)</strong></td>
           <td><span class="cross-icon">—</span></td>
-          <td><span class="check-icon">✓ Drag & Drop Grid</span></td>
+          <td><span class="check-icon">✓ Included</span></td>
         </tr>
         <tr>
-          <td><strong>Custom Python Operators & Blender Macros</strong></td>
+          <td><strong>Advanced Sculpt, Topology &amp; Object Decks (Brushes, Remesh, Loop Cut, Knife, Shading)</strong></td>
+          <td><span class="cross-icon">—</span></td>
+          <td><span class="check-icon">✓ Full Action Catalog</span></td>
+        </tr>
+        <tr>
+          <td><strong>1-Tap Left/Right-Handed Horizontal Flip &amp; JSON Layout Backup</strong></td>
+          <td><span class="cross-icon">—</span></td>
+          <td><span class="check-icon">✓ Included</span></td>
+        </tr>
+        <tr>
+          <td><strong>Custom Python Operators (<code>bpy.ops.*</code>) &amp; Blender Macros</strong></td>
           <td><span class="cross-icon">—</span></td>
           <td><span class="check-icon">✓ Unlimited Macros</span></td>
         </tr>
-        <tr>
-          <td><strong>Advanced Timeline, Shading & Node Editor Controls</strong></td>
-          <td><span class="cross-icon">—</span></td>
-          <td><span class="check-icon">✓ Included</span></td>
-        </tr>
       </tbody>
     </table>
+  </section>
+
+  <!-- FAQ & Connection Troubleshooting -->
+  <section class="faq-section container" id="faq">
+    <h2 class="section-title">FAQ &amp; Connection Troubleshooting</h2>
+    <p class="section-sub">Everything you need to know for a smooth 120Hz local Wi-Fi setup.</p>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>🛡️ I scanned the QR code, why isn't my phone connecting to Blender?</span>
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          BlendPad communicates directly over your local Wi-Fi network using <strong>UDP port 4242</strong> (120Hz touch stream) and <strong>TCP port 4243</strong> (commands &amp; handshake). Check these two things:
+          <ul style="margin-top: 8px; padding-left: 20px;">
+            <li><strong>Same Local Wi-Fi:</strong> Make sure both your computer and smartphone are connected to the same router (avoid "Guest" Wi-Fi networks that enable client isolation).</li>
+            <li><strong>Windows / macOS Firewall:</strong> When Blender first starts the server, click <em>"Allow Access"</em> on Private Networks. If blocked, allow inbound <code>UDP 4242</code> and <code>TCP 4243</code> (or click <em>"Configura Firewall Automaticamente"</em> inside the Blender BlendPad sidebar panel).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>🧩 How do I install the Add-on on Blender 4.2 LTS or Blender 5.x?</span>
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          Download <code>blendpad_blender.zip</code> below (do <strong>not</strong> unzip it). In Blender 4.2+ or 5.x, open <strong>Edit &gt; Preferences &gt; Add-ons</strong>, click the drop-down arrow in the top-right corner, and choose <strong>Install from Disk...</strong> Select the <code>.zip</code> file and enable <strong>BlendPad Direct</strong>. Then press <kbd>N</kbd> in the 3D Viewport to open the BlendPad tab.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>⚡ Does BlendPad require an internet connection or cloud account?</span>
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          No. 100% of viewport navigation and shortcut traffic happens locally between your phone and your PC over LAN/Wi-Fi with zero cloud relay and zero telemetry. Even if your internet goes down, BlendPad continues working at 120Hz as long as your local router is active.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>👑 How does the Studio PRO 3-Day Free Trial work?</span>
+          <span class="faq-chevron">▼</span>
+        </button>
+        <div class="faq-answer">
+          Every user can use the core 120Hz SpaceMouse Touchpad, 1-finger double-tap Focus, Numpad View Matrix, and the 3 standard mode workflows completely free forever. If you want to test <strong>Studio PRO</strong> (3D Haptic Rotary Dials, Custom Workflow Manager, 3/4-Finger Undo/Redo, Left-Handed 1-Tap Flip, and Custom Python Macros), you can start a <strong>3-day free trial</strong> directly via Google Play Store or choose the one-time Lifetime Studio license.
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Download Hub -->
@@ -1614,34 +1775,39 @@
     <div class="container">
       <div class="download-box">
         <h2 class="section-title" style="margin-bottom: 12px;">Get Started with BlendPad Today</h2>
-        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 30px;">
-          Compatible with Blender 4.2, 4.1, and 4.0 LTS on Windows, macOS, and Linux. Android 8.0+.
+        <p style="color: var(--text-muted); max-width: 640px; margin: 0 auto 30px;">
+          Compatible with <strong>Blender 5.x, 4.2+, 4.1, and 4.0 LTS</strong> on Windows, macOS, and Linux. Android 8.0+.
         </p>
 
         <div class="download-options">
           <div class="download-card">
             <div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--orange); margin-bottom: 8px;">DESKTOP ADD-ON</div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--orange); margin-bottom: 8px;">DESKTOP ADD-ON · v1.5.0</div>
               <h3 style="color:#fff; font-size:20px; margin-bottom: 8px;">blendpad_blender.zip</h3>
               <p style="font-size:13px; color: var(--text-muted); margin-bottom: 20px;">
-                Direct UDP/TCP server daemon for Blender with on-screen QR generation.
+                Direct 120Hz UDP/TCP server daemon for Blender 4.x &amp; 5.x with on-screen QR pairing.
               </p>
             </div>
-            <a href="releases/blendpad_blender.zip" download="blendpad_blender.zip" class="btn btn-orange">
-              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-              Download Add-on (.zip)
-            </a>
+            <div>
+              <a href="releases/blendpad_blender.zip" download="blendpad_blender.zip" class="btn btn-orange" style="width: 100%; justify-content: center;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Download Add-on (.zip)
+              </a>
+              <button type="button" class="btn-copy-pc" id="copyPcLinkBtn" onclick="copyPcLink()">
+                <span>📋</span> <span id="copyPcLinkText">Browsing on phone? Copy / Send Link to PC</span>
+              </button>
+            </div>
           </div>
 
           <div class="download-card">
             <div>
-              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--cyan); margin-bottom: 8px;">ANDROID CLIENT</div>
+              <div style="font-size: 11px; font-family: var(--font-mono); color: var(--cyan); margin-bottom: 8px;">ANDROID CLIENT · v1.1.0</div>
               <h3 style="color:#fff; font-size:20px; margin-bottom: 8px;">Google Play Store</h3>
               <p style="font-size:13px; color: var(--text-muted); margin-bottom: 20px;">
-                Ultra-responsive Flutter mobile client with 8-language localization & custom layout designer.
+                Ultra-responsive Flutter mobile client with 8-language localization &amp; custom workflow designer.
               </p>
             </div>
-            <a href="https://play.google.com/store/apps/details?id=com.spinnhy.blendpad" target="_blank" rel="noopener" class="btn btn-primary">
+            <a href="https://play.google.com/store/apps/details?id=com.spinnhy.blendpad" target="_blank" rel="noopener" class="btn btn-primary" style="width: 100%; justify-content: center;">
               <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993s-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9994.4482.9994.9993s-.4483.9997-.9994.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1523-.5676.416.416 0 00-.5676.1523l-2.0223 3.503C15.5902 8.411 13.8533 8 12 8s-3.5902.411-5.1366.9499L4.841 5.4469a.416.416 0 00-.5676-.1523.416.416 0 00-.1523.5676l1.9973 3.4592C2.6889 11.1867 0 14.858 0 19.1667h24c0-4.3087-2.6889-7.98-6.1185-9.8453"/></svg>
               Get on Google Play
             </a>
@@ -1697,6 +1863,38 @@
       const btn = document.getElementById('hamburgerBtn');
       if (menu) menu.classList.remove('open');
       if (btn) btn.classList.remove('active');
+    }
+
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      if (item) item.classList.toggle('open');
+    }
+
+    function copyPcLink() {
+      const addonUrl = 'https://spinnhy.github.io/BlendPad/releases/blendpad_blender.zip';
+      const labelEl = document.getElementById('copyPcLinkText');
+      const btnEl = document.getElementById('copyPcLinkBtn');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(addonUrl).catch(() => {});
+      }
+      if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        navigator.share({
+          title: 'BlendPad Direct — Blender Add-on (.zip)',
+          text: 'Download the BlendPad Direct Add-on (v1.5.0) on your PC for Blender 4.2+ / 5.x:',
+          url: addonUrl
+        }).catch(() => {});
+      }
+      if (labelEl && btnEl) {
+        const prev = labelEl.innerText;
+        labelEl.innerText = '✓ Link Copied! Paste it on your PC browser';
+        btnEl.style.borderColor = '#10B981';
+        btnEl.style.color = '#10B981';
+        setTimeout(() => {
+          labelEl.innerText = prev;
+          btnEl.style.borderColor = '';
+          btnEl.style.color = '';
+        }, 3200);
+      }
     }
 
     const cube = document.getElementById('cube');
