@@ -56,7 +56,7 @@ BlendPad detects your system language automatically and supports:
 ## 🚀 Quick Start Guide
 
 ### Step 1: Install Blender Add-on
-1. Download [`blendpad_blender.zip`](releases/blendpad_blender.zip).
+1. Download [`blendpad_blender.zip`](https://spinnhy.github.io/BlendPad/releases/blendpad_blender.zip).
 2. Open Blender (4.0, 4.1, or 4.2+).
 3. Go to **Edit > Preferences > Add-ons**.
 4. Click **Install from Disk** (top-right) and select `blendpad_blender.zip`.
@@ -68,7 +68,7 @@ BlendPad detects your system language automatically and supports:
 3. Click **Avvia Server**. A QR code overlay will appear in the viewport.
 
 ### Step 3: Launch BlendPad Mobile
-1. Install and open the BlendPad app on your Android device ([download APK](releases/blendpad_mobile.apk)).
+1. Install and open the BlendPad app on your Android device ([Google Play Store](https://play.google.com/store/apps/details?id=com.spinnhy.blendpad)).
 2. Tap **Scan QR** and point your camera at the QR code in Blender.
 3. You're connected! Use your phone screen to orbit, pan, zoom, and trigger shortcuts.
 
