@@ -1,14 +1,14 @@
 bl_info = {
     "name": "BlendPad Direct",
     "author": "BlendPad",
-    "version": (1, 4, 0),
+    "version": (1, 5, 0),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > BlendPad",
     "description": "Ultra-low latency SpaceMouse & Viewport Controller for Mobile via Direct UDP/TCP",
     "category": "3D View",
 }
 
-ADDON_VERSION = "1.4.0"
+ADDON_VERSION = "1.5.0"
 MIN_APP_VERSION = "1.0.0"
 PROTOCOL_VERSION = 3
 
@@ -289,6 +289,22 @@ def handle_tcp_client(conn, addr):
                     elif msg_type == "sculpt_brush_invert":
                         with state.cmd_lock:
                             state.cmd_queue.append(("brush_invert", None))
+                    elif msg_type == "sculpt_brush":
+                        brush = msg.get("brush")
+                        with state.cmd_lock:
+                            state.cmd_queue.append(("sculpt_brush", brush))
+                    elif msg_type == "sculpt_action":
+                        action = msg.get("action")
+                        with state.cmd_lock:
+                            state.cmd_queue.append(("sculpt_action", action))
+                    elif msg_type == "mode_switch":
+                        target = msg.get("target")
+                        with state.cmd_lock:
+                            state.cmd_queue.append(("mode_switch", target))
+                    elif msg_type == "object_action":
+                        action = msg.get("action")
+                        with state.cmd_lock:
+                            state.cmd_queue.append(("object_action", action))
                             
                     # Edit Mesh Tools
                     elif msg_type == "edit_action":
@@ -529,7 +545,73 @@ EDIT_OPERATORS = {
     "BEVEL": (("mesh", "bevel", {}), ("mesh", "bevel", {"offset": 0.1})),
     "INSET": (("mesh", "inset", {}), ("mesh", "inset", {"thickness": 0.05})),
     "SUBDIVIDE": (None, ("mesh", "subdivide", {})),
+    "LOOP_CUT": (("mesh", "loopcut_slide", {}), ("mesh", "subdivide", {})),
+    "KNIFE": (("mesh", "knife_tool", {}), ("mesh", "knife_tool", {})),
+    "MERGE_DISTANCE": (None, ("mesh", "remove_doubles", {})),
+    "FILL": (None, ("mesh", "edge_face_add", {})),
+    "DELETE": (("wm", "call_menu", {"name": "VIEW3D_MT_edit_mesh_delete"}), ("mesh", "delete", {"type": "VERT"})),
 }
+
+SCULPT_BRUSH_TOOLS = {
+    "DRAW": "builtin_brush.Draw",
+    "CLAY_STRIPS": "builtin_brush.Clay Strips",
+    "GRAB": "builtin_brush.Grab",
+    "SMOOTH": "builtin_brush.Smooth",
+    "CREASE": "builtin_brush.Crease",
+    "MASK": "builtin_brush.Mask",
+}
+
+
+def execute_mode_switch_command(win, area, region, target):
+    try:
+        with bpy.context.temp_override(window=win, area=area, region=region):
+            bpy.ops.object.mode_set(mode=str(target).upper())
+    except Exception as e:
+        print(f"[CADPad] Mode switch error: {e}")
+
+
+def execute_sculpt_extra_command(win, area, region, cmd_type, arg):
+    try:
+        with bpy.context.temp_override(window=win, area=area, region=region):
+            if cmd_type == "sculpt_brush":
+                tool_id = SCULPT_BRUSH_TOOLS.get(str(arg).upper())
+                if tool_id:
+                    bpy.ops.wm.tool_set_by_id(name=tool_id)
+            elif cmd_type == "sculpt_action":
+                act = str(arg).upper()
+                if act == "SYMMETRY_X":
+                    obj = bpy.context.active_object
+                    if obj and obj.data and hasattr(obj.data, "use_mirror_x"):
+                        obj.data.use_mirror_x = not obj.data.use_mirror_x
+                elif act == "VOXEL_REMESH":
+                    bpy.ops.object.voxel_remesh()
+                elif act == "CLEAR_MASK":
+                    bpy.ops.paint.mask_flood_fill(mode='VALUE', value=0.0)
+    except Exception as e:
+        print(f"[CADPad] Sculpt extra error: {e}")
+
+
+def execute_object_command(win, area, region, action):
+    try:
+        with bpy.context.temp_override(window=win, area=area, region=region):
+            act = str(action).upper()
+            if act == "DUPLICATE":
+                try:
+                    bpy.ops.object.duplicate_move('INVOKE_DEFAULT')
+                except Exception:
+                    bpy.ops.object.duplicate()
+            elif act == "LOCAL_VIEW":
+                bpy.ops.view3d.localview()
+            elif act == "SHADE_SMOOTH":
+                bpy.ops.object.shade_smooth()
+            elif act == "SHADE_FLAT":
+                bpy.ops.object.shade_flat()
+            elif act == "ORIGIN_GEOMETRY":
+                bpy.ops.object.origin_set(type='ORIGIN_GEOMETRY', center='MEDIAN')
+            elif act == "APPLY_TRANSFORMS":
+                bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    except Exception as e:
+        print(f"[CADPad] Object action error: {e}")
 
 
 def run_edit_operator(win, area, region, action):
@@ -846,6 +928,15 @@ def cadpad_viewport_timer():
             needs_redraw = True
         elif cmd_type in ("brush_size", "brush_strength", "brush_invert", "select_mode", "edit_action"):
             execute_sculpt_edit_command(win, target_area, target_region, cmd_type, arg)
+            needs_redraw = True
+        elif cmd_type in ("sculpt_brush", "sculpt_action"):
+            execute_sculpt_extra_command(win, target_area, target_region, cmd_type, arg)
+            needs_redraw = True
+        elif cmd_type == "mode_switch":
+            execute_mode_switch_command(win, target_area, target_region, arg)
+            needs_redraw = True
+        elif cmd_type == "object_action":
+            execute_object_command(win, target_area, target_region, arg)
             needs_redraw = True
         elif cmd_type.startswith("anim_"):
             execute_anim_command(win, target_area, target_region, cmd_type, arg)

@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 id = "blendpad"
-version = "1.4.0"
+version = "1.5.0"
 name = "BlendPad Direct"
 tagline = "Ultra-low latency SpaceMouse & Contextual Workflow Controller for Mobile"
 maintainer = "BlendPad Team"
