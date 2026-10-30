@@ -1,0 +1,21 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007 (GPL-2.0-or-later compatible for Blender Extensions)
+
+Copyright (C) 2026 CtrlSide / BlendPad Team
+
+1. BLENDER ADD-ON ("BlendPad Direct" in `blender_addon/`)
+The BlendPad Direct Blender Add-on is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as published
+by the Free Software Foundation, either version 2 of the License, or (at your
+option) any later version (SPDX: GPL-2.0-or-later), in compliance with the
+Blender Python API licensing terms.
+
+The Blender Add-on is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details:
+https://www.gnu.org/licenses/gpl-3.0.html
+
+2. BLENDPAD MOBILE APPLICATION (`com.spinnhy.blendpad`)
+The BlendPad Android mobile application is proprietary software distributed
+exclusively via Google Play Store. All rights reserved by CtrlSide.
