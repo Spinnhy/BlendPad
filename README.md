@@ -15,7 +15,7 @@ BlendPad eliminates the need for expensive dedicated 3D hardware ($150–$400) b
 
 ---
 
-## 🌟 Key Features (App v1.1.0 · Add-on v1.5.0)
+## 🌟 Key Features (App v1.1.0 · Add-on v1.6.0)
 
 ### 🕹️ Multi-Touch Viewport Navigation
 - **1-Finger Drag**: Smooth Orbit around selected geometry or 3D cursor.
@@ -59,7 +59,7 @@ BlendPad detects your system language automatically and supports:
 
 ## 🚀 Quick Start Guide
 
-### Step 1: Install Blender Add-on (`v1.5.0`)
+### Step 1: Install Blender Add-on (`v1.6.0`)
 1. Download [`blendpad_blender.zip`](https://spinnhy.github.io/BlendPad/releases/blendpad_blender.zip).
 2. Open Blender (**4.0, 4.1, 4.2 LTS, or 5.x**).
 3. Go to **Edit > Preferences > Add-ons**.
@@ -86,7 +86,9 @@ BlendPad detects your system language automatically and supports:
 | Custom Orbit / Pan / Zoom Sensitivity & Axis Inversion | ✅ | ✅ |
 | 1-Finger Double-Tap Focus (`Frame Selected`) & Numpad View Matrix | ✅ | ✅ |
 | QR Pairing, Auto-Reconnect & Automatic Screen WakeLock | ✅ | ✅ |
-| Standard Mode Workflows (Object, Edit Mesh, Sculpt) & Basic Layout Move/Resize | ✅ (3 Decks) | ✅ (Unlimited) |
+| Standard Mode Workflows (Object, Edit Mesh, Sculpt) & Free-Form 2D Move/Resize | ✅ (3 Decks) | ✅ (Unlimited) |
+| Custom Button Color, Icon, Long-Press Secondary Action & Live Blender State Sync | ✅ | ✅ |
+| Custom Group Editor (Add, Remove & Reorder Any Action or Macro Inside Groups) | Preset Groups | ✅ |
 | Custom Workflow Manager (Create, Rename, Reorder & Auto-Sync Mode Triggers) | — | ✅ |
 | 3D Haptic Rotary Dials (Brush Radius, Strength & Timeline Scrubber) | — | ✅ |
 | Procreate-Style Multi-Touch Gestures (3-Finger Undo / 4-Finger Redo) | — | ✅ |

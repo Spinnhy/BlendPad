@@ -1,14 +1,14 @@
 bl_info = {
     "name": "BlendPad Direct",
     "author": "BlendPad",
-    "version": (1, 5, 0),
+    "version": (1, 6, 0),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > BlendPad",
     "description": "Ultra-low latency SpaceMouse & Viewport Controller for Mobile via Direct UDP/TCP",
     "category": "3D View",
 }
 
-ADDON_VERSION = "1.5.0"
+ADDON_VERSION = "1.6.0"
 MIN_APP_VERSION = "1.0.0"
 PROTOCOL_VERSION = 3
 
@@ -58,6 +58,7 @@ class CADPadState:
     
     # Mode & Workflow tracking
     last_mode = None
+    last_state_json = None
     last_mode_check = 0.0
     mouse_x = -1
     mouse_y = -1
@@ -225,6 +226,7 @@ def handle_tcp_client(conn, addr):
                             authed = True
                             state.connected_ip = addr[0]
                             state.last_mode = None  # force mode push
+                            state.last_state_json = None  # force live state push
                             state.qr_hide_pending = True
                             client_app_ver = str(msg.get("app_version", "1.0.0"))
                             welcome = json.dumps({
@@ -583,6 +585,8 @@ def execute_sculpt_extra_command(win, area, region, cmd_type, arg):
                     obj = bpy.context.active_object
                     if obj and obj.data and hasattr(obj.data, "use_mirror_x"):
                         obj.data.use_mirror_x = not obj.data.use_mirror_x
+                elif act == "DYNTOPO":
+                    bpy.ops.sculpt.dynamic_topology_toggle()
                 elif act == "VOXEL_REMESH":
                     bpy.ops.object.voxel_remesh()
                 elif act == "CLEAR_MASK":
@@ -602,6 +606,12 @@ def execute_object_command(win, area, region, action):
                     bpy.ops.object.duplicate()
             elif act == "LOCAL_VIEW":
                 bpy.ops.view3d.localview()
+            elif act == "PROPORTIONAL":
+                ts = bpy.context.tool_settings
+                if bpy.context.mode == 'OBJECT':
+                    ts.use_proportional_edit_objects = not ts.use_proportional_edit_objects
+                else:
+                    ts.use_proportional_edit = not ts.use_proportional_edit
             elif act == "SHADE_SMOOTH":
                 bpy.ops.object.shade_smooth()
             elif act == "SHADE_FLAT":
@@ -816,6 +826,94 @@ def detect_current_workflow(win, area):
     return bpy.context.mode if bpy.context.mode else 'OBJECT'
 
 
+def collect_live_blender_state(win, area):
+    """Collects active mode, brush, selection mode, viewport shading, and toggle states."""
+    st = {}
+    try:
+        raw_mode = bpy.context.mode if bpy.context and bpy.context.mode else "OBJECT"
+        if raw_mode.startswith("EDIT"):
+            st["mode"] = "EDIT"
+        else:
+            st["mode"] = raw_mode
+
+        ts = bpy.context.tool_settings if bpy.context else None
+        obj = bpy.context.active_object if bpy.context else None
+
+        # Active Sculpt Brush
+        brush_key = ""
+        if raw_mode == "SCULPT":
+            try:
+                if win and win.workspace:
+                    tool = win.workspace.tools.from_space_view3d_mode(raw_mode, create=False)
+                    if tool and getattr(tool, "idname", None):
+                        t_id = str(tool.idname)
+                        for k, v in SCULPT_BRUSH_TOOLS.items():
+                            if t_id == v or t_id.lower().endswith(v.split(".")[-1].lower()):
+                                brush_key = k
+                                break
+            except Exception:
+                pass
+            if not brush_key and ts and getattr(ts, "sculpt", None) and getattr(ts.sculpt, "brush", None):
+                bname = ts.sculpt.brush.name.upper().replace(" ", "_")
+                if bname in SCULPT_BRUSH_TOOLS:
+                    brush_key = bname
+        st["brush"] = brush_key
+
+        # Mesh Select Mode (VERT / EDGE / FACE)
+        sel_key = ""
+        if ts and hasattr(ts, "mesh_select_mode"):
+            msm = ts.mesh_select_mode
+            if len(msm) >= 3:
+                if msm[0]:
+                    sel_key = "VERT"
+                elif msm[1]:
+                    sel_key = "EDGE"
+                elif msm[2]:
+                    sel_key = "FACE"
+        st["select"] = sel_key
+
+        # Viewport Shading
+        shading_key = ""
+        v3d_area = area if (area and area.type == 'VIEW_3D') else None
+        if not v3d_area:
+            _, v3d_area, _ = find_primary_3d_view()
+        if v3d_area and v3d_area.spaces and v3d_area.spaces.active and hasattr(v3d_area.spaces.active, "shading"):
+            shading_key = str(v3d_area.spaces.active.shading.type).upper()
+        st["shading"] = shading_key
+
+        # Symmetry X, Dyntopo, Proportional Editing, Brush Invert, Playing
+        sym_x = False
+        if obj and getattr(obj, "data", None) and hasattr(obj.data, "use_mirror_x"):
+            sym_x = bool(obj.data.use_mirror_x)
+        st["symmetry_x"] = "true" if sym_x else "false"
+
+        dyntopo = False
+        if obj and hasattr(obj, "use_dynamic_topology_sculpting"):
+            dyntopo = bool(obj.use_dynamic_topology_sculpting)
+        st["dyntopo"] = "true" if dyntopo else "false"
+
+        prop_on = False
+        if ts:
+            if raw_mode == "OBJECT":
+                prop_on = bool(getattr(ts, "use_proportional_edit_objects", False))
+            else:
+                prop_on = bool(getattr(ts, "use_proportional_edit", False))
+        st["proportional"] = "true" if prop_on else "false"
+
+        inv_on = False
+        if ts and getattr(ts, "sculpt", None) and getattr(ts.sculpt, "brush", None):
+            inv_on = getattr(ts.sculpt.brush, "direction", "ADD") == "SUBTRACT"
+        st["brush_invert"] = "true" if inv_on else "false"
+
+        playing = False
+        if bpy.context and getattr(bpy.context, "screen", None):
+            playing = bool(getattr(bpy.context.screen, "is_animation_playing", False))
+        st["playing"] = "true" if playing else "false"
+    except Exception:
+        pass
+    return st
+
+
 def cadpad_viewport_timer():
     """Timer running at ~120 Hz on Blender's main thread."""
     if not state.running:
@@ -981,7 +1079,7 @@ def cadpad_viewport_timer():
                 if a.type in ('VIEW_3D', 'NODE_EDITOR', 'DOPESHEET_EDITOR', 'GRAPH_EDITOR', 'PROPERTIES', 'TOPBAR'):
                     a.tag_redraw()
 
-    # 3. Contextual Workflow Sync Check (~4 Hz)
+    # 3. Contextual Workflow & Live State Sync Check (~4 Hz)
     now = time.time()
     if now - state.last_mode_check > 0.25:
         state.last_mode_check = now
@@ -993,6 +1091,18 @@ def cadpad_viewport_timer():
                     try:
                         msg = json.dumps({"type": "mode", "mode": curr_workflow}) + "\n"
                         state.active_client.sendall(msg.encode('utf-8'))
+                    except Exception:
+                        pass
+
+        curr_state = collect_live_blender_state(win, target_area)
+        curr_state_json = json.dumps(curr_state, sort_keys=True)
+        if curr_state_json != state.last_state_json:
+            state.last_state_json = curr_state_json
+            with state.client_lock:
+                if state.active_client:
+                    try:
+                        s_msg = json.dumps({"type": "state", "state": curr_state}) + "\n"
+                        state.active_client.sendall(s_msg.encode('utf-8'))
                     except Exception:
                         pass
 
