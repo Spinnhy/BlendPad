@@ -1,14 +1,14 @@
 bl_info = {
     "name": "BlendPad Direct",
     "author": "BlendPad",
-    "version": (1, 6, 0),
+    "version": (1, 6, 1),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > BlendPad",
     "description": "Ultra-low latency SpaceMouse & Viewport Controller for Mobile via Direct UDP/TCP",
     "category": "3D View",
 }
 
-ADDON_VERSION = "1.6.0"
+ADDON_VERSION = "1.6.1"
 MIN_APP_VERSION = "1.0.0"
 PROTOCOL_VERSION = 3
 
@@ -563,6 +563,36 @@ SCULPT_BRUSH_TOOLS = {
     "MASK": "builtin_brush.Mask",
 }
 
+# Blender 4.3+ / 5.x: sculpt brushes are assets in the Essentials library
+SCULPT_BRUSH_ASSETS = {
+    "DRAW": "Draw",
+    "CLAY_STRIPS": "Clay Strips",
+    "GRAB": "Grab",
+    "SMOOTH": "Smooth",
+    "CREASE": "Crease Polish",
+    "MASK": "Mask",
+}
+
+# Brush datablock name -> BlendPad key (used for live state sync)
+SCULPT_BRUSH_NAME_TO_KEY = {v.upper(): k for k, v in SCULPT_BRUSH_ASSETS.items()}
+SCULPT_BRUSH_NAME_TO_KEY.update({"CREASE": "CREASE", "CREASE SHARP": "CREASE"})
+
+
+def activate_sculpt_brush(key):
+    """Activates a sculpt brush on both legacy (<=4.2) and asset-based (4.3+) Blender."""
+    key = str(key).upper()
+    if bpy.app.version >= (4, 3, 0):
+        asset_name = SCULPT_BRUSH_ASSETS.get(key)
+        if asset_name:
+            bpy.ops.brush.asset_activate(
+                asset_library_type='ESSENTIALS',
+                relative_asset_identifier=f"brushes/essentials_brushes-mesh_sculpt.blend/Brush/{asset_name}",
+            )
+            return
+    tool_id = SCULPT_BRUSH_TOOLS.get(key)
+    if tool_id:
+        bpy.ops.wm.tool_set_by_id(name=tool_id)
+
 
 def execute_mode_switch_command(win, area, region, target):
     try:
@@ -576,9 +606,7 @@ def execute_sculpt_extra_command(win, area, region, cmd_type, arg):
     try:
         with bpy.context.temp_override(window=win, area=area, region=region):
             if cmd_type == "sculpt_brush":
-                tool_id = SCULPT_BRUSH_TOOLS.get(str(arg).upper())
-                if tool_id:
-                    bpy.ops.wm.tool_set_by_id(name=tool_id)
+                activate_sculpt_brush(arg)
             elif cmd_type == "sculpt_action":
                 act = str(arg).upper()
                 if act == "SYMMETRY_X":
@@ -854,9 +882,10 @@ def collect_live_blender_state(win, area):
             except Exception:
                 pass
             if not brush_key and ts and getattr(ts, "sculpt", None) and getattr(ts.sculpt, "brush", None):
-                bname = ts.sculpt.brush.name.upper().replace(" ", "_")
-                if bname in SCULPT_BRUSH_TOOLS:
-                    brush_key = bname
+                bname = ts.sculpt.brush.name.strip().upper()
+                brush_key = SCULPT_BRUSH_NAME_TO_KEY.get(bname, "")
+                if not brush_key and bname.replace(" ", "_") in SCULPT_BRUSH_TOOLS:
+                    brush_key = bname.replace(" ", "_")
         st["brush"] = brush_key
 
         # Mesh Select Mode (VERT / EDGE / FACE)
